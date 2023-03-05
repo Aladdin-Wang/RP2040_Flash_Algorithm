@@ -29,7 +29,6 @@
 *.dylib
 
 # Executables
-*.exe
 *.out
 *.app
 *.i*86
@@ -50,3 +49,20 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+*.dep
+project/mdk/template.uvguix.*
+project/mdk/Objects
+*.scvd
+*.iex
+project/mdk/JLinkLog.txt
+project/mdk/template.uf2
+*._ac
+*.__i
+*@*
+
+project/mdk/RTE/PikaScript
+RTE_Components.h
+Pre_Include_*
+project/mdk/RTE/Acceleration/README.md
+project/mdk/RTE/Acceleration/img2c.py
+project/mdk/RTE/Acceleration/arm_2d.c
