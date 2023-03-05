@@ -83,7 +83,7 @@
             <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>1</RunUserProg2>
             <UserProg1Name>.\axf2uf2.bat</UserProg1Name>
-            <UserProg2Name>cmd.exe /C copy "!L" "D:\Keil_v5\ARM\Flash\@L.FLM"</UserProg2Name>
+            <UserProg2Name>cmd.exe /C copy "!L" ".\@L.FLM"</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopA1X>0</nStopA1X>

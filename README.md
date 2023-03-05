@@ -1,23 +1,39 @@
-# Pico_Template (v1.8.1)
+# Pico_Template (v2.0.1)
 An MDK template for Raspberry Pi Pico
 
-- **[new]Support the latest pico-sdk (v1.5.0)**
+- **[new] Add Flash Programming algorithm.**
+
+  - **Special thanks to [Aladdin-Wang](https://github.com/Aladdin-Wang)**. His extraordinary work makes our life much easier!
+
+- **Support the latest pico-sdk (v1.5.0)**
+
 - Compiler: Arm Compiler 6.15 and above (Using non-intrusive wrapper to support pico-sdk which is written in GCC)
-- ***It works as you wanted!***
+
 - Add support for popular [LCD 1.3inc module](https://www.waveshare.com/wiki/Pico-LCD-1.3) 
-- **[new]** Support an ultra-lightweight python VM: [PikaScript](https://github.com/pikasTech/pikascript) (via cmsis-pack)
+
+- Support an ultra-lightweight python VM: [PikaScript](https://github.com/pikasTech/pikascript) (via cmsis-pack)
+
 - Compatible with CMSIS 5.7.0, CMSIS 5.8.0 and above
-- Verified with Arm Compiler 6.15 and above.
+
 - Provide users an option to use the ***stdio*** solution from ***pico-sdk (by default)*** or retarget the ***stdin/stdout*** to a user specified location directly. (See note in ***env_wrapper.c***).
-- Support Debug in MDK
+
+- **[new] Ready for running [Arm-2D](https://github.com/ARM-software/Arm-2D) benchmarks**
+
+- **[new] Ready for coremark**
+
+- **Support Debug in MDK**
+
   - [Using CMSIS-DAP](https://github.com/majbthrd/pico-debug) (Validated in MDK and **highly recommended**)
+  - **Support Flash Downloading**
+
 - Add dedicated project configurations for:
   - [**AC6-flash**] Running code in Flash (XIP)
+
   - [**AC6-RunInSRAM**] Running code in SRAM (code is still stored in FLASH)
-  - [**AC6-DebugInSRAM**] "no_flash" mode in the original pico-sdk. It is suitable for MDK debug.
-  - [**AC6-DebugInSRAM-printf**] same as [**AC6-DebugInSRAM**] but retargeting printf to 'Debug (printf) Viewer' inside MDK.
 
+  - [**AC6-DebugInSRAM**] "no_flash" mode in the original pico-sdk.
 
+    
 
 
 # How to Use
@@ -126,14 +142,11 @@ When using configuration**AC6-DebugInSRAM-printf**, all ***printf*** output is r
 
 
 
-#### 2.3.1 For AC6-DebugInSRAM configuration
-
 Pico-Template provides a dedicated project configuration for downloading and debugging code in SRAM. This is the most convenient one and it delivers the best development experience among the three configurations. To use it, please follow the steps below:
 
-1. Boot the Pico with the BOOTSEL button pressed. 
-2. Drag and drop **pico-debug-gimmecache.uf2 **to RPI-RP2 mass-storage driver in the explorer. It immediately reboots as a CMSIS-DAP adapter. Pico-debug loads as a RAM only .uf2 image, meaning that it is never written to flash and doesn't replace existing user code.
-3. Open your project which is based on our Pico-Template and switch to ***AC6-DebugInSRAM*** configuration.
-4. Compile and Debug
+1. Boot the Pico with the **BOOTSEL** button pressed. 
+2. Drag and drop **pico-debug-gimmecache.uf2** to RPI-RP2 mass-storage driver in the explorer. It immediately reboots as a **CMSIS-DAP adapter**. Pico-debug loads as a RAM only `.uf2` image, meaning that it is never written to flash and doesn't replace existing user code.
+3. Compile and Debug
 5. Enjoy...
 
 **NOTE: **
@@ -143,20 +156,6 @@ Pico-Template provides a dedicated project configuration for downloading and deb
 ![image-20210919180644156](documents/Pictures/Reset_Pico.png) 
 
 **2. If you cannot find this Toolbox, please start your debug session and go to menu "View"->"Toolbox Window".**
-
-#### 2.3.2 For Other configurations
-
-Besides the project configuration aforementioned, i.e. **DebugInSRAM** , the rest of configurations require users to download the generated uf2 file, i.e. template.uf2, first. To use those configurations, please follow the steps below:
-
-1. Open your project which is based on our Pico-Template and switch to your desired project configuration, e.g. RunInFlash
-2. Compile and there should be an generated uf2 file. 
-3. Boot the Pico with the BOOTSEL button pressed. 
-4. Drag and drop **your generated uf2 file, e.g. template.uf2 **to RPI-RP2 mass-storage driver in the explorer.
-5. Boot the Pico with the BOOTSEL button pressed. 
-6. Drag and drop **pico-debug-gimmecache.uf2 **to RPI-RP2 mass-storage driver in the explorer. It immediately reboots as a CMSIS-DAP adapter. Pico-debug loads as a RAM only .uf2 image, meaning that it is never written to flash and doesn't replace existing user code.
-7. Enjoy...
-
- **NOTE: For each update of project, you have to go through the steps above from 2 to 6... I guess the step 7 will never happen...**
 
 
 
@@ -168,7 +167,7 @@ In brief,  it is an
 
 >  1.3inch LCD Display Module For Raspberry Pi Pico, 65K RGB Colors, 240×240 Pixels, SPI Interface
 
-![](https://www.waveshare.com/w/thumb.php?f=Pico-LCD-1.3-1.jpg&width=600) 
+![](https://www.waveshare.com/w/fkbk/swtumb.php?f=Pico-LCD-1.3-1.jpg&width=600) 
 
  To enable the built in support, please set the macro `__PICO_USE_LCD_1IN3__` to `1` in MDK project configuration as shown below:
 
@@ -184,6 +183,8 @@ void GLCD_DrawBitmap(   int_fast16_t x, int_fast16_t y,
                         int_fast16_t width, int_fast16_t height,
                         uint16_t *frame_ptr);
 ```
+
+**NOTE**: an alternative API, i.e. `Disp0_DrawBitmap`, is ready for working with Arm-2D. 
 
 - Use the API `dev_read_key()` to read the key status of the 1.3 inch LCD board:
 
@@ -238,6 +239,48 @@ Pico-Template supports [PikaScript](https://github.com/pikasTech/pikascript) via
 **NOTE**: The first time compilation after ***selecting the Before Build/Rebuild*** might takes a longer time than you thought. 
 
 ![](./documents/Pictures/EnableThePikaBeforeBuild.png) 
+
+### 2.6 How to run Coremark
+
+With the help from `perf_counter v2.0.0` , we can now run **[coremark](https://github.com/eembc/coremark)** on Pico-Template with just one click in RTE as shown below:
+
+![](./documents/Pictures/Select_Coremark_In_RTE.png) 
+
+A code in `main()` will run the coremark after that:
+
+```c
+int main(void) 
+{
+    system_init();
+
+    printf("Hello Pico-Template\r\n");
+    
+    ...
+
+#if defined( __PERF_COUNTER_COREMARK__ ) && __PERF_COUNTER_COREMARK__
+    printf("\r\nRun Coremark 1.0...\r\n");
+    coremark_main();
+#endif
+    ...
+    
+    while (true) {
+        breath_led();
+        ...
+    }
+}
+```
+
+By default, you can observe the test result in **Debug (printf) View** as shown below:
+
+![](./documents/Pictures/coremark_result.png) 
+
+
+
+**NOTE**: **The coremark has to run at least 10 secs to generate a valid result**. Fail to do so,  you can change the macro `ITERATIONS` defined in `core_portme.h` to a bigger value and try again.
+
+![](./documents/Pictures/core_portme.png) 
+
+
 
 # Known issue
 
