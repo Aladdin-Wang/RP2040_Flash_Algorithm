@@ -237,7 +237,7 @@ static uint32_t crc32_calculator (uint8_t *pbuf, uint_fast32_t size, uint32_t in
 #ifdef FLASH_MEM
 __attribute__((used))
 int ProgramPage (unsigned long adr, unsigned long sz, unsigned char *buf) {
-
+	*((int*)0x4002800C)=0x62000; // set pll to 125Mhz
   if(adr == base_adr){
       uint32_t crc = crc32_calculator(buf, BOOT2_SIZE_BYTES - 4, 0xFFFFFFFF);
       (*(uint32_t *)&(buf[BOOT2_SIZE_BYTES - 4])) = crc;
